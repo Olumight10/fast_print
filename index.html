@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<title>Dinning Hall Tags</title>
+<style>
+  @page { size: A4; margin: 5mm; }
+  body { margin: 0; font-family: Arial, sans-serif; -webkit-print-color-adjust: exact; }
+
+  .page {
+    width: 210mm;
+    height: 297mm;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: repeat(5, 1fr);
+    gap: 4mm;
+    padding: 5mm;
+    box-sizing: border-box;
+    page-break-after: always;
+  }
+
+  .tag {
+    border: 1.2px solid #000;
+    border-radius: 4px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    font-size: 13pt;
+    font-weight: bold;
+    box-sizing: border-box;
+  }
+
+  .tag .title {
+    font-size: 14pt;
+    margin-bottom: 4mm;
+  }
+
+  .tag .number {
+    font-size: 28pt;
+  }
+
+  @media print {
+    .controls { display: none; }
+    body { background: white; }
+  }
+
+  .controls { margin: 10px; }
+  .btn { padding: 6px 12px; border: none; background:#2b6cff;color:#fff;cursor:pointer;border-radius:5px; }
+</style>
+</head>
+<body>
+
+<div class="controls">
+  <button class="btn" onclick="window.print()">Print</button>
+</div>
+
+<div id="canvas"></div>
+
+<script>
+(function(){
+  const canvas = document.getElementById('canvas');
+  const totalTags = 300;
+  const perPage = 20;
+
+  function buildPages() {
+    canvas.innerHTML = '';
+    let current = 11;
+    while (current <= totalTags) {
+      const page = document.createElement('section');
+      page.className = 'page';
+      for (let i = 0; i < perPage && current <= totalTags; i++) {
+        const tag = document.createElement('div');
+        tag.className = 'tag';
+        tag.innerHTML = `
+          <div class="title">Board Room</div>
+          <div class="number">${current}</div>
+        `;
+        page.appendChild(tag);
+        current++;
+      }
+      canvas.appendChild(page);
+    }
+  }
+
+  buildPages();
+})();
+</script>
+
+</body>
+</html>
